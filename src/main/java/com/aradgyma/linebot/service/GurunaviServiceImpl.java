@@ -1,8 +1,8 @@
 package com.aradgyma.linebot.service;
 
+import com.aradgyma.linebot.GurunaviProperties;
 import com.aradgyma.linebot.exception.BotException;
 import com.aradgyma.linebot.model.gurunavi.Restaurant;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
@@ -10,20 +10,42 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 @Service
 public class GurunaviServiceImpl implements GurunaviService {
 
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
+    // アクセスキー
+    private String acckey = new GurunaviProperties().accesskey;
+    // 緯度
+    private String lat = "35.670082";
+    // 経度
+    private String lon = "139.763267";
+    // 範囲
+    private String range = "1";
+    // 返却形式
+    private String format = "json";
+
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {
-            URL restSearch = new URL(endpointRestSearch);
+            String prmFormat = "?format=" + format;
+            String prmKeyid = "&keyid=" + acckey;
+            String prmLat = "&latitude=" + lat;
+            String prmLon = "&longitude=" + lon;
+            String prmRange = "&range=" + range;
+
+            // URI組み立て
+            String uri = endpointRestSearch;
+            uri += prmFormat;
+            uri += prmKeyid;
+            uri += prmLat;
+            uri += prmLon;
+            uri += prmRange;
+
+            URL restSearch = new URL(uri);
             HttpURLConnection http = (HttpURLConnection)restSearch.openConnection();
             http.setRequestMethod("GET");
             http.connect();
