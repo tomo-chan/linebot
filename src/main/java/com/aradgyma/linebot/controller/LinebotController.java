@@ -18,8 +18,7 @@ import java.util.ArrayList;
 @Slf4j
 @LineMessageHandler
 public class LinebotController {
-
-
+    
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         System.out.println("event: " + event);

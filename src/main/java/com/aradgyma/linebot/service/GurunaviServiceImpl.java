@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-@Service
+@Component
 public class GurunaviServiceImpl implements GurunaviService {
 
     @Autowired
