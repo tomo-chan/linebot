@@ -6,6 +6,7 @@ import com.aradgyma.linebot.model.gurunavi.Restaurant;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,10 +18,10 @@ import java.util.ArrayList;
 @Service
 public class GurunaviServiceImpl implements GurunaviService {
 
+    private final GurunaviProperties gurunaviProperties;
+
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
-    // アクセスキー
-    private String accesskey = new GurunaviProperties().accesskey;
     // 緯度
     private String lat = "35.670082";
     // 経度
@@ -30,11 +31,16 @@ public class GurunaviServiceImpl implements GurunaviService {
     // 返却形式
     private String format = "json";
 
+    @Autowired
+    public GurunaviServiceImpl(GurunaviProperties gurunaviProperties) {
+        this.gurunaviProperties = gurunaviProperties;
+    }
+
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {
-            System.out.println("AccessKey-length: " + accesskey.length());
+            System.out.println("AccessKey-length: " + gurunaviProperties.getAccesskey().length());
             String prmFormat = "?format=" + format;
-            String prmKeyid = "&keyid=" + accesskey;
+            String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();
             String prmLat = "&latitude=" + lat;
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;

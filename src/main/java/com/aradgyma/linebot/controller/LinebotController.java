@@ -1,5 +1,6 @@
 package com.aradgyma.linebot.controller;
 
+import com.aradgyma.linebot.GurunaviProperties;
 import com.aradgyma.linebot.exception.BotException;
 import com.aradgyma.linebot.model.gurunavi.Restaurant;
 import com.aradgyma.linebot.service.GurunaviService;
@@ -25,7 +26,7 @@ public class LinebotController {
         String message = event.getMessage().getText();
         if (message.contains("ぐるなび")) {
             System.out.println("Contains: ぐるなび");
-            GurunaviService guruService = new GurunaviServiceImpl();
+            GurunaviService guruService = new GurunaviServiceImpl(new GurunaviProperties());
             try {
                 ArrayList<Restaurant> restaurantList = guruService.getRestaurantList();
                 if(restaurantList.size() > 1) {
