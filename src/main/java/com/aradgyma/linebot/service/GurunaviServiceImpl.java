@@ -32,6 +32,7 @@ public class GurunaviServiceImpl implements GurunaviService {
 
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {
+            System.out.println("AccessKey-length: " + accesskey.length());
             String prmFormat = "?format=" + format;
             String prmKeyid = "&keyid=" + accesskey;
             String prmLat = "&latitude=" + lat;
