@@ -19,7 +19,8 @@ import java.util.ArrayList;
 @Service
 public class GurunaviServiceImpl implements GurunaviService {
 
-    private final GurunaviProperties gurunaviProperties;
+    @Autowired
+    private GurunaviProperties gurunaviProperties;
 
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
@@ -34,10 +35,10 @@ public class GurunaviServiceImpl implements GurunaviService {
     // 返却形式
     private String format = "json";
 
-    @Autowired
-    public GurunaviServiceImpl(GurunaviProperties gurunaviProperties) {
-        this.gurunaviProperties = gurunaviProperties;
-    }
+//    @Autowired
+//    public GurunaviServiceImpl(GurunaviProperties gurunaviProperties) {
+//        this.gurunaviProperties = gurunaviProperties;
+//    }
 
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {

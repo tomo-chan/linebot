@@ -26,8 +26,8 @@ public class LinebotController {
         String message = event.getMessage().getText();
         if (message.contains("ぐるなび")) {
             System.out.println("Contains: ぐるなび");
-            GurunaviService guruService = new GurunaviServiceImpl(new GurunaviProperties());
-//            GurunaviService guruService = new GurunaviServiceImpl();
+//            GurunaviService guruService = new GurunaviServiceImpl(new GurunaviProperties());
+            GurunaviService guruService = new GurunaviServiceImpl();
             try {
                 ArrayList<Restaurant> restaurantList = guruService.getRestaurantList();
                 if(restaurantList.size() > 1) {
