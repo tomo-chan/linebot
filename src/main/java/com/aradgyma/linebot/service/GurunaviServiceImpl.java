@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,6 +23,8 @@ public class GurunaviServiceImpl implements GurunaviService {
 
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
+    @Value("${gurunavi.accesskey}")
+    private String accessKey;
     // 緯度
     private String lat = "35.670082";
     // 経度
@@ -38,9 +41,9 @@ public class GurunaviServiceImpl implements GurunaviService {
 
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {
-            System.out.println("AccessKey-length: " + gurunaviProperties.getAccesskey().length());
+            System.out.println("AccessKey-length: " + accessKey.length());
             String prmFormat = "?format=" + format;
-            String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();
+            String prmKeyid = "&keyid=" + accessKey;
             String prmLat = "&latitude=" + lat;
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
