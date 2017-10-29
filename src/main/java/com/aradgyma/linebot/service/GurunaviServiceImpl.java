@@ -19,12 +19,12 @@ import java.util.ArrayList;
 @Service
 public class GurunaviServiceImpl implements GurunaviService {
 
-//    private final GurunaviProperties gurunaviProperties;
+    private final GurunaviProperties gurunaviProperties;
 
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
-    @Value("${gurunavi.accesskey:}")
-    private String accessKey;
+//    @Value("${gurunavi.accesskey:}")
+//    private String accessKey;
     // 緯度
     private String lat = "35.670082";
     // 経度
@@ -34,15 +34,16 @@ public class GurunaviServiceImpl implements GurunaviService {
     // 返却形式
     private String format = "json";
 
-//    public GurunaviServiceImpl(GurunaviProperties gurunaviProperties) {
-//        this.gurunaviProperties = gurunaviProperties;
-//    }
+    @Autowired
+    public GurunaviServiceImpl(GurunaviProperties gurunaviProperties) {
+        this.gurunaviProperties = gurunaviProperties;
+    }
 
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {
-            System.out.println("AccessKey-length: " + accessKey.length());
+            System.out.println("AccessKey-length: " + gurunaviProperties.getAccesskey().length());
             String prmFormat = "?format=" + format;
-            String prmKeyid = "&keyid=" + accessKey;
+            String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();
             String prmLat = "&latitude=" + lat;
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
