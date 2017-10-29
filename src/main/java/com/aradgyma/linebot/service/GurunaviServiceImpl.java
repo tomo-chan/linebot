@@ -7,8 +7,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -17,16 +15,13 @@ import java.net.URL;
 import java.util.ArrayList;
 
 
-@Component
+@Service
 public class GurunaviServiceImpl implements GurunaviService {
 
-//    @Autowired
-//    private GurunaviProperties gurunaviProperties;
+    private final GurunaviProperties gurunaviProperties;
 
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
-    @Value("${gurunavi.accesskey:}")
-    private String accessKey;
     // 緯度
     private String lat = "35.670082";
     // 経度
@@ -36,18 +31,16 @@ public class GurunaviServiceImpl implements GurunaviService {
     // 返却形式
     private String format = "json";
 
-//    @Autowired
-//    public GurunaviServiceImpl(GurunaviProperties gurunaviProperties) {
-//        this.gurunaviProperties = gurunaviProperties;
-//    }
+    @Autowired
+    public GurunaviServiceImpl(GurunaviProperties gurunaviProperties) {
+        this.gurunaviProperties = gurunaviProperties;
+    }
 
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {
-//            System.out.println("AccessKey-length: " + gurunaviProperties.getAccesskey().length());
-            System.out.println("AccessKey-length: " + accessKey.length());
+            System.out.println("AccessKey-length: " + gurunaviProperties.getAccesskey().length());
             String prmFormat = "?format=" + format;
-//            String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();
-            String prmKeyid = "&keyid=" + accessKey;
+            String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();
             String prmLat = "&latitude=" + lat;
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
