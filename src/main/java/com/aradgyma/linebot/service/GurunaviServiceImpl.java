@@ -13,6 +13,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+
 @Service
 public class GurunaviServiceImpl implements GurunaviService {
 
@@ -61,6 +62,8 @@ public class GurunaviServiceImpl implements GurunaviService {
 
     private ArrayList<Restaurant> parseRestaurant(@NonNull JsonNode nodeList) {
         ArrayList<Restaurant> restaurantList = new ArrayList<>();
+
+        System.out.println(nodeList.toString());
 
         //トータルヒット件数
         String hitcount   = "total:" + nodeList.path("total_hit_count").asText();
