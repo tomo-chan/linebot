@@ -19,7 +19,7 @@ public class GurunaviServiceImpl implements GurunaviService {
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
     // アクセスキー
-    private String acckey = new GurunaviProperties().accesskey;
+    private String accesskey = new GurunaviProperties().accesskey;
     // 緯度
     private String lat = "35.670082";
     // 経度
@@ -32,7 +32,7 @@ public class GurunaviServiceImpl implements GurunaviService {
     public ArrayList<Restaurant> getRestaurantList() throws BotException {
         try {
             String prmFormat = "?format=" + format;
-            String prmKeyid = "&keyid=" + acckey;
+            String prmKeyid = "&keyid=" + accesskey;
             String prmLat = "&latitude=" + lat;
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
