@@ -98,7 +98,7 @@ public class GurunaviServiceImpl implements GurunaviService {
                     .build();
 
             restaurantList.add(restaurant);
-            System.out.println(id + "¥t" + name + "¥t" + line + "¥t" + station + "¥t" + walk + "¥t" + categories.toString());
+//            System.out.println(id + "¥t" + name + "¥t" + line + "¥t" + station + "¥t" + walk + "¥t" + categories.toString());
         }
         return restaurantList;
     }
