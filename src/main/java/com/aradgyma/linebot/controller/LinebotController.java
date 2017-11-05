@@ -65,6 +65,9 @@ public class LinebotController {
                     for (int i = 0; i < length; i++) {
                         Restaurant r = restaurantList.get(i);
                         String imageUrl = (r.getImageUrl() != null && r.getImageUrl().length() > 0) ? r.getImageUrl() : null;
+                        if(r.getImageUrl() == null) {
+                            continue;
+                        }
                         columnList.add(new CarouselColumn(imageUrl,
                                 r.getName(), r.getAddress(), Arrays.asList(
                                     new URIAction("Websiteを見る", r.getSiteUrl()),
