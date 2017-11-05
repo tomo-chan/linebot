@@ -64,7 +64,8 @@ public class LinebotController {
                     ArrayList<CarouselColumn> columnList = new ArrayList<>();
                     for (int i = 0; i < length; i++) {
                         Restaurant r = restaurantList.get(i);
-                        columnList.add(new CarouselColumn(r.getImageUrl(),
+                        String imageUrl = (r.getImageUrl() != null && r.getImageUrl().length() > 0) ? r.getImageUrl() : null;
+                        columnList.add(new CarouselColumn(imageUrl,
                                 r.getName(), r.getAddress(), Arrays.asList(
                                     new URIAction("Websiteを見る", r.getSiteUrl()),
                                     new URIAction("地図で見る", "http://maps.google.com/maps"
