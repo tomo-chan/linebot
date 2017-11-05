@@ -34,7 +34,7 @@ public class GurunaviServiceImpl implements GurunaviService {
         this.gurunaviProperties = gurunaviProperties;
     }
 
-    public ArrayList<Restaurant> getRestaurantList(@NotNull String message, @NonNull String lat, @NotNull String lon) throws BotException {
+    public ArrayList<Restaurant> getRestaurantList(@NotNull String message, @NonNull Double lat, @NotNull Double lon) throws BotException {
         try {
             String prmFormat = "?format=" + format;
             String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();

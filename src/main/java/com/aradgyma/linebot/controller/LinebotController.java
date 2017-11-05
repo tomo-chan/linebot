@@ -51,8 +51,8 @@ public class LinebotController {
         String message = textContent.getText();
         if (talk != null && talk.getVariables().get("lat") != null && talk.getVariables().get("lon") != null) {
             try {
-                String lat = (String) talk.getVariables().get("lat");
-                String lon = (String) talk.getVariables().get("lon");
+                Double lat = (Double) talk.getVariables().get("lat");
+                Double lon = (Double) talk.getVariables().get("lon");
                 ArrayList<Restaurant> restaurantList = gurunaviService.getRestaurantList(message, lat, lon);
                 if(restaurantList.size() > 1) {
                     return new TextMessage(restaurantList.get(0).toString());
