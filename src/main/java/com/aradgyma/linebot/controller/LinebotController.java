@@ -10,6 +10,7 @@ import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.model.response.BotApiResponse;
@@ -44,8 +45,9 @@ public class LinebotController {
     @EventMapping
     public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         System.out.println("event: " + event);
+        String senderId = event.getSource().getSenderId();
+        Talk talk = talkMap.get(senderId);
         TextMessageContent textContent = event.getMessage();
-        Talk talk = talkMap.get(textContent);
         String message = textContent.getText();
         if (talk != null && talk.getVariables().get("lat") != null && talk.getVariables().get("lon") != null) {
             try {
@@ -73,12 +75,14 @@ public class LinebotController {
 
     @EventMapping
     public void handleLocationMessageEvent(MessageEvent<LocationMessageContent> event) {
-        LocationMessageContent locationMessage = event.getMessage();
-        Talk talk = talkMap.get(locationMessage.getId());
+        System.out.println(event);
+        String senderId = event.getSource().getSenderId();
+        Talk talk = talkMap.get(senderId);
         if(talk == null) {
             talk = new Talk();
-            talkMap.put(locationMessage.getId(), talk);
+            talkMap.put(senderId, talk);
         }
+        LocationMessageContent locationMessage = event.getMessage();
         talk.getVariables().put("lat", locationMessage.getLatitude());
         talk.getVariables().put("lon", locationMessage.getLongitude());
         reply(event.getReplyToken(), new TextMessage("何が食べたい？"));
