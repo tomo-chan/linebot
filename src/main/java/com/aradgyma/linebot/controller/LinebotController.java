@@ -81,7 +81,7 @@ public class LinebotController {
         }
         talk.getVariables().put("lat", locationMessage.getLatitude());
         talk.getVariables().put("lon", locationMessage.getLongitude());
-        reply(event.getReplyToken(), new TextMessage("何が食べたい？");
+        reply(event.getReplyToken(), new TextMessage("何が食べたい？"));
     }
 
     private void reply(@NonNull String replyToken, @NonNull Message message) {
