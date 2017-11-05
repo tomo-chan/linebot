@@ -8,5 +8,5 @@ import java.util.ArrayList;
 
 public interface GurunaviService {
 
-    ArrayList<Restaurant> getRestaurantList(@NotNull  String message, @NotNull String lat, @NotNull String lon) throws BotException;
+    ArrayList<Restaurant> getRestaurantList(@NotNull  String message, @NotNull Double lat, @NotNull Double lon) throws BotException;
 }

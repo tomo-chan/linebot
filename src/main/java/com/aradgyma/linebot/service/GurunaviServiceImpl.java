@@ -34,7 +34,7 @@ public class GurunaviServiceImpl implements GurunaviService {
         this.gurunaviProperties = gurunaviProperties;
     }
 
-    public ArrayList<Restaurant> getRestaurantList(@NotNull String message, @NonNull String lat, @NotNull String lon) throws BotException {
+    public ArrayList<Restaurant> getRestaurantList(@NotNull String message, @NonNull Double lat, @NotNull Double lon) throws BotException {
         try {
             String prmFormat = "?format=" + format;
             String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();
@@ -69,7 +69,7 @@ public class GurunaviServiceImpl implements GurunaviService {
     private ArrayList<Restaurant> parseRestaurant(@NonNull JsonNode nodeList) {
         ArrayList<Restaurant> restaurantList = new ArrayList<>();
 
-        System.out.println(nodeList.toString());
+//        System.out.println(nodeList.toString());
 
         //トータルヒット件数
         String hitcount   = "total:" + nodeList.path("total_hit_count").asText();
@@ -82,7 +82,13 @@ public class GurunaviServiceImpl implements GurunaviService {
             String name = r.path("name").asText();
             String line = r.path("access").path("line").asText();
             String station = r.path("access").path("station").asText();
-            String walk = r.path("access").path("walk").asText() + "分";
+            int walk = r.path("access").path("walk").asInt();
+            String imageUrl = r.path("image_url").path("shop_image1").asText();
+            String url = r.path("url").asText();
+            Double latitude = r.path("latitude").asDouble();
+            Double longitude = r.path("longitude").asDouble();
+            String address = r.path("address").asText();
+            String tel = r.path("tel").asText();
             StringBuilder categories = new StringBuilder();
 
             for (JsonNode n : r.path("code").path("category_name_s")) {
@@ -94,6 +100,12 @@ public class GurunaviServiceImpl implements GurunaviService {
                     .line(line)
                     .station(station)
                     .walk(walk)
+                    .imageUrl(imageUrl)
+                    .siteUrl(url)
+                    .lat(latitude)
+                    .lon(longitude)
+                    .address(address)
+                    .tel(tel)
                     .build();
 
             restaurantList.add(restaurant);

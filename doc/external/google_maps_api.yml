@@ -1,0 +1,41 @@
+swagger: '2.0'
+info:
+  description: Google Maps API
+  version: v3
+  title: Google Maps API
+host: maps.google.com
+schemes:
+  - http
+paths:
+  /maps:
+    get:
+      tags:
+        - Map API
+      summary: 目的地までの経路検索
+      description: ''
+      operationId: ''
+      produces:
+        - text/html
+      parameters:
+        - name: saddr
+          in: query
+          description: '出発地の位置（緯度,経度）'
+          required: true
+          type: string
+        - name: daddr
+          in: query
+          description: '目的地の位置（緯度,経度）'
+          required: true
+          type: string
+        - name: dirflg
+          in: query
+          description: ''
+          required: false
+          type: string
+          enum:
+            - w
+            - d
+            - t
+      responses:
+        '200':
+          description: successful operation

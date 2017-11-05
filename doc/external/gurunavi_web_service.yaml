@@ -1,0 +1,123 @@
+swagger: '2.0'
+info:
+  description: ぐるなびWebサービス
+  version: '20150630'
+  title: レストラン検索API
+  termsOfService: 'http://api.gnavi.co.jp/api/agreement/'
+host: api.gnavi.co.jp
+tags:
+  - name: RestSearchAPI
+    description: Restaurant search
+    externalDocs:
+      description: Find out more
+      url: 'http://api.gnavi.co.jp/api/manual/restsearch/'
+schemes:
+  - https
+paths:
+  /RestSearchAPI/20150630/:
+    get:
+      tags:
+        - RestSearchAPI
+      summary: Finds restaurant
+      description: リクエストパラメータがkeyidのみの場合は、パラメータ不足のため、エラーとして値が返ります。
+      operationId: findRestaurants
+      produces:
+        - application/json
+      parameters:
+        - name: keyid
+          in: query
+          description: ''
+          required: true
+          type: string
+        - name: format
+          in: query
+          description: ''
+          required: true
+          type: string
+          enum:
+            - json
+            - xml
+        - name: latitude
+          in: query
+          description: ''
+          required: false
+          type: number
+        - name: longitude
+          in: query
+          description: ''
+          required: false
+          type: number
+        - name: range
+          in: query
+          description: ''
+          required: false
+          type: integer
+        - name: freeword
+          in: query
+          description: ''
+          required: false
+          type: string
+      responses:
+        '200':
+          description: successful operation
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Restaurant'
+        '429':
+          description: Too Many Access  リクエスト回数上限超過
+        '600':
+          description: NoShop  指定された店舗の情報が存在しない。
+        '601':
+          description: Invalid Access  不正なアクセス（認証エラー）。
+        '602':
+          description: Invalid Shop Number  不正なぐるなび店舗IDパラメータが指定された。
+        '603':
+          description: InvalidType  不正なパラメータが指定された。
+        '604':
+          description: Internal Server Error  処理中にエラーが発生した。
+definitions:
+  Restaurant:
+    type: object
+    properties:
+      api_version:
+        type: string
+      rest:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          address:
+            type: string
+          tel:
+            type: string
+          latitude:
+            type: number
+          longitude:
+            type: number
+          image_url:
+            type: object
+            properties:
+              shop_image1:
+                description: 空文字の場合がある
+                type: string
+          access:
+            type: object
+            properties:
+              walk:
+                description: 通常は、徒歩何分です。（例外：車10)
+                type: integer
+  ApiResponse:
+    type: object
+    properties:
+      api_version:
+        type: string
+      error:
+        type: object
+        properties:
+          code:
+            type: string
+          message:
+            type: string
