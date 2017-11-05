@@ -9,9 +9,11 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 
@@ -22,10 +24,6 @@ public class GurunaviServiceImpl implements GurunaviService {
 
     private final String endpointRestSearch = "https://api.gnavi.co.jp/RestSearchAPI/20150630/";
 
-    // 緯度
-    private String lat = "35.670082";
-    // 経度
-    private String lon = "139.763267";
     // 範囲
     private String range = "1";
     // 返却形式
@@ -36,13 +34,14 @@ public class GurunaviServiceImpl implements GurunaviService {
         this.gurunaviProperties = gurunaviProperties;
     }
 
-    public ArrayList<Restaurant> getRestaurantList() throws BotException {
+    public ArrayList<Restaurant> getRestaurantList(@NotNull String message, @NonNull String lat, @NotNull String lon) throws BotException {
         try {
             String prmFormat = "?format=" + format;
             String prmKeyid = "&keyid=" + gurunaviProperties.getAccesskey();
             String prmLat = "&latitude=" + lat;
             String prmLon = "&longitude=" + lon;
             String prmRange = "&range=" + range;
+            String prmFreeword = "&freeword=" + URLEncoder.encode(message, "UTF-8");
 
             // URI組み立て
             String uri = endpointRestSearch;
@@ -51,6 +50,7 @@ public class GurunaviServiceImpl implements GurunaviService {
             uri += prmLat;
             uri += prmLon;
             uri += prmRange;
+            uri += prmFreeword;
 
             URL restSearch = new URL(uri);
             HttpURLConnection http = (HttpURLConnection)restSearch.openConnection();
