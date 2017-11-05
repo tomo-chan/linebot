@@ -1,0 +1,78 @@
+swagger: '2.0'
+info:
+  description: |
+    LINE Messaging API
+
+    Rate limits
+
+    The limit for the number of API calls that you can make to each endpoint and
+    the number of recipients that you can send messages to per minute are shown
+    below. Rate limits vary depending on your plan.
+
+    | Plan | API calls | Number of recipients |
+    | ------ | ------ | ------ |
+    | Developer Trial | 1,000/min | 20,000/min |
+    | Other plans | 10,000/min | 200,000/min |
+  version: v2
+  title: LINE Messaging API
+host: api.line.me
+basePath: /v2/message
+schemes:
+  - https
+paths:
+  /reply:
+    get:
+      tags:
+        - Messaging API
+      summary: 'Respond to events from users, groups, and rooms.'
+      description: >
+        Respond to events from users, groups, and rooms.
+
+
+        Webhooks are used to notify you when an event occurs. For events that
+        you can respond to, a replyToken is issued for replying to messages.
+
+
+        Because the replyToken becomes invalid after a certain period of time,
+        responses should be sent as soon as a message is received. Reply tokens
+        can only be used once.
+      operationId: ''
+      produces:
+        - application/json
+      parameters:
+        - name: X-Line-Signature
+          in: header
+          required: true
+          type: string
+        - in: body
+          name: body
+          schema:
+            type: object
+            required:
+              - replyToken
+              - messages
+            properties:
+              replyToken:
+                description: replyToken received via webhook
+                type: string
+              messages:
+                description: 'Messages Max: 5'
+                type: array
+                maxItems: 5
+                items:
+                  type: object
+      responses:
+        '200':
+          description: Request successful
+        '400':
+          description: Problem with the request
+        '401':
+          description: Valid Channel access token is not specified
+        '403':
+          description: >-
+            Not authorized to use the API. Confirm that your account or plan is
+            authorized to used the API.
+        '429':
+          description: Exceeded the rate limit for API calls
+        '500':
+          description: Error on the internal server
