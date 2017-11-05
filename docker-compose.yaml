@@ -1,0 +1,25 @@
+version: "3"
+
+services:
+web:
+  image: nginx:1.12.2
+  ports:
+    - "10080:80"
+  links:
+    - bot
+redis:
+  image: redis:3.2.11
+bot:
+  build: .
+  links:
+    - redis
+  environment: 
+    - GURUNAVI_ACCESSKEY
+    - LINE_BOT_CHANNEL_TOKEN
+    - LINE_BOT_CHANNEL_SECRET
+    - SPRING_SESSION_STORE-TYPE=redis
+    - SPRING_REDIS_HOST=redis
+    - SPRING_REDIS_PORT=6379
+
+
+
