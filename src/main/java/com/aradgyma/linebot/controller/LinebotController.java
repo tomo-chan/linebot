@@ -6,23 +6,28 @@ import com.aradgyma.linebot.model.Talk;
 import com.aradgyma.linebot.service.GurunaviServiceImpl;
 import com.linecorp.bot.client.LineMessagingClient;
 import com.linecorp.bot.model.ReplyMessage;
+import com.linecorp.bot.model.action.MessageAction;
+import com.linecorp.bot.model.action.PostbackAction;
+import com.linecorp.bot.model.action.URIAction;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.LocationMessageContent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.model.event.source.Source;
 import com.linecorp.bot.model.message.Message;
+import com.linecorp.bot.model.message.TemplateMessage;
 import com.linecorp.bot.model.message.TextMessage;
+import com.linecorp.bot.model.message.template.CarouselColumn;
+import com.linecorp.bot.model.message.template.CarouselTemplate;
+import com.linecorp.bot.model.message.template.ImageCarouselColumn;
+import com.linecorp.bot.model.message.template.ImageCarouselTemplate;
 import com.linecorp.bot.model.response.BotApiResponse;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 
 //@Slf4j
@@ -43,7 +48,7 @@ public class LinebotController {
     }
 
     @EventMapping
-    public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
+    public void handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
         System.out.println("event: " + event);
         String senderId = event.getSource().getSenderId();
         Talk talk = talkMap.get(senderId);
@@ -55,16 +60,32 @@ public class LinebotController {
                 Double lon = (Double) talk.getVariables().get("lon");
                 ArrayList<Restaurant> restaurantList = gurunaviService.getRestaurantList(message, lat, lon);
                 if(restaurantList.size() > 1) {
-                    return new TextMessage(restaurantList.get(0).toString());
+                    int length = (restaurantList.size() > 5) ? 5 : restaurantList.size();
+                    ArrayList<CarouselColumn> columnList = new ArrayList<>();
+                    for (int i = 0; i < length; i++) {
+                        Restaurant r = restaurantList.get(i);
+                        columnList.add(new CarouselColumn(r.getImageUrl(),
+                                r.getName(), r.getAddress(), Arrays.asList(
+                                    new URIAction("Websiteを見る", r.getSiteUrl()),
+                                    new URIAction("地図で見る", "http://maps.google.com/maps"
+                                        + "?saddr=" + lat + ',' + r.getLat()
+                                        + "&daddr=" + lon + ',' + r.getLon()
+                                        + "&dirflg=w"),
+                                    new URIAction(r.getTel(), "tel:"+r.getTel()))
+                                ));
+                    }
+                    CarouselTemplate carouselTemplate = new CarouselTemplate(columnList);
+                    TemplateMessage templateMessage = new TemplateMessage("お店見つけました！", carouselTemplate);
+                    this.reply(event.getReplyToken(), templateMessage);
                 } else {
-                    return new TextMessage("ヒットせず・・・");
+                    reply(event.getReplyToken(), new TextMessage("見つかりませんでした・・・"));
                 }
             } catch (BotException e) {
                 e.printStackTrace();
-                return new TextMessage("エラーでしたよ");
+                reply(event.getReplyToken(), new TextMessage("聞き逃しちゃいました"));
             }
         } else {
-            return new TextMessage(event.getMessage().getText());
+            reply(event.getReplyToken(), new TextMessage(event.getMessage().getText()));
         }
     }
 
