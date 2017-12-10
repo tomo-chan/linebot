@@ -1,4 +1,4 @@
-package com.aradgyma.linebot.exception;
+package com.aradgyma.bot.linebot.exception;
 
 public class BotException extends Exception {
 

@@ -1,7 +1,7 @@
-package com.aradgyma.linebot.service;
+package com.aradgyma.bot.gurunavi.service;
 
-import com.aradgyma.linebot.exception.BotException;
-import com.aradgyma.linebot.model.gurunavi.Restaurant;
+import com.aradgyma.bot.linebot.exception.BotException;
+import com.aradgyma.bot.gurunavi.model.Restaurant;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;

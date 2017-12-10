@@ -1,4 +1,4 @@
-package com.aradgyma.linebot;
+package com.aradgyma.bot.gurunavi.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

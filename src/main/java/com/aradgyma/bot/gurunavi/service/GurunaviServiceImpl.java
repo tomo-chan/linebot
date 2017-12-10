@@ -1,8 +1,8 @@
-package com.aradgyma.linebot.service;
+package com.aradgyma.bot.gurunavi.service;
 
-import com.aradgyma.linebot.GurunaviProperties;
-import com.aradgyma.linebot.exception.BotException;
-import com.aradgyma.linebot.model.gurunavi.Restaurant;
+import com.aradgyma.bot.gurunavi.config.GurunaviProperties;
+import com.aradgyma.bot.linebot.exception.BotException;
+import com.aradgyma.bot.gurunavi.model.Restaurant;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.NonNull;

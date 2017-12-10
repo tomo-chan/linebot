@@ -1,4 +1,4 @@
-package com.aradgyma.linebot.model;
+package com.aradgyma.bot.linebot.model;
 
 import lombok.Data;
 

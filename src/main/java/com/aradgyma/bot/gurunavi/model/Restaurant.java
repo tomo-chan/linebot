@@ -1,4 +1,4 @@
-package com.aradgyma.linebot.model.gurunavi;
+package com.aradgyma.bot.gurunavi.model;
 
 import lombok.Builder;
 import lombok.Value;
